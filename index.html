@@ -12,7 +12,7 @@
 const URL='https://jcpdzqilnhnljvrfsjug.supabase.co',KEY='sb_publishable_IsYn6XHFo7AUOfE0BDyfZA_sjavx6Vr',db=supabase.createClient(URL,KEY),app=document.getElementById('app');
 const bootPath=new URLSearchParams(location.search).get('__route');
 if(bootPath){history.replaceState({},'',bootPath);}
-const path=location.pathname.replace(/\\/+$/,'')||'/';
+const path=location.pathname.replace(/\/+$/,'')||'/';
 const mode=path.endsWith('/customer')?'customer':path.endsWith('/staff')?'staff':path.endsWith('/hq')?'hq':'customer';
 const params=new URLSearchParams(location.search);
 const esc=x=>String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
