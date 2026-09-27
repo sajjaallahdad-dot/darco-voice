@@ -39,7 +39,8 @@ function customer(){
  }
  render();
 }
-function nav(){return '<aside class="side"><h2>DARCO VOICE</h2><button onclick="location.hash=\'hq\'">Manager HQ</button><button onclick="location.hash=\'staff\'">Staff Voice</button><button onclick="location.hash=\'customer\'">فرم مشتری</button><button onclick="logout()">خروج</button></aside>'}
+function go(p){history.pushState({},'',p);run()}
+function nav(){return '<aside class="side"><h2>DARCO VOICE</h2><button onclick="go(\'/hq\')">Manager HQ</button><button onclick="go(\'/staff\')">Staff Voice</button><button onclick="go(\'/customer\')">فرم مشتری</button><button onclick="logout()">خروج</button></aside>'}
 async function logout(){await db.auth.signOut();go('/hq')}
 async function profile(u){let{data,error}=await db.from('dv_profiles').select('*').eq('id',u.id).single();if(error)throw error;return data}
 function login(kind,done){
