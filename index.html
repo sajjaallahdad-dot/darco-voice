@@ -10,7 +10,11 @@
 <body><div id="app"></div>
 <script>
 const URL='https://jcpdzqilnhnljvrfsjug.supabase.co',KEY='sb_publishable_IsYn6XHFo7AUOfE0BDyfZA_sjavx6Vr',db=supabase.createClient(URL,KEY),app=document.getElementById('app');
-const mode=location.hash.replace('#','').split('?')[0]||'customer',params=new URLSearchParams(location.hash.split('?')[1]||'');
+const bootPath=new URLSearchParams(location.search).get('__route');
+if(bootPath){history.replaceState({},'',bootPath);}
+const path=location.pathname.replace(/\\/+$/,'')||'/';
+const mode=path.endsWith('/customer')?'customer':path.endsWith('/staff')?'staff':path.endsWith('/hq')?'hq':'customer';
+const params=new URLSearchParams(location.search);
 const esc=x=>String(x??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shell=x=>'<div class="wrap"><div class="card">'+x+'</div></div>';
 async function branch(){let{data,error}=await db.from('dv_branches').select('*').eq('code','GILAVAND').single();if(error)throw error;return data}
@@ -36,7 +40,7 @@ function customer(){
  render();
 }
 function nav(){return '<aside class="side"><h2>DARCO VOICE</h2><button onclick="location.hash=\'hq\'">Manager HQ</button><button onclick="location.hash=\'staff\'">Staff Voice</button><button onclick="location.hash=\'customer\'">فرم مشتری</button><button onclick="logout()">خروج</button></aside>'}
-async function logout(){await db.auth.signOut();location.hash='hq'}
+async function logout(){await db.auth.signOut();go('/hq')}
 async function profile(u){let{data,error}=await db.from('dv_profiles').select('*').eq('id',u.id).single();if(error)throw error;return data}
 function login(kind,done){
  app.innerHTML=shell('<div class="brand">DARCO VOICE</div><h2>'+kind+'</h2><p class="sub">ایمیل و رمز حساب دارکو را وارد کن.</p><label>ایمیل</label><input id="email" type="email"><label>رمز عبور</label><input id="pass" type="password"><button id="login" class="btn">ورود</button><div id="msg"></div>');
@@ -63,5 +67,5 @@ async function run(){
   if(mode==='hq')await hq(session.user);else if(mode==='staff')await staff(session.user);else customer();
  }catch(e){app.innerHTML=shell('<div class="brand">DARCO VOICE</div><h2>خطا</h2><div class="error">'+esc(e.message)+'</div>')}
 }
-window.addEventListener('hashchange',run);run();
+window.addEventListener('popstate',run);run();
 </script></body></html>
