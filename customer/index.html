@@ -62,7 +62,7 @@ const db=window.supabase.createClient('https://jcpdzqilnhnljvrfsjug.supabase.co'
 const app=document.getElementById('app'),MODE='customer';let deferredInstall=null;
 const esc=v=>String(v==null?'':v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const card=x=>'<div class="wrap"><div class="card">'+x+'</div></div>';
-const branch=async()=>{const r=await db.from('dv_branches').select('*').eq('code','GILAVAND').limit(1);if(r.error)throw r.error;if(!r.data||!r.data.length)throw Error('شعبه GILAVAND در دیتابیس پیدا نشد.');return r.data[0];};
+const BRANCH_ID='a0e47b77-05fd-41a8-a8a8-527bc866eabf';
 function customer(){
  const s={overall:0,coffee:0,staff:0,service:0,environment:0,comment:'',contact:false,phone:'',time:''};let step=0;
  function render(){
@@ -81,7 +81,7 @@ function customer(){
   if(q('next2'))q('next2').onclick=()=>{if([s.coffee,s.staff,s.service,s.environment].every(Boolean)){step=3;render();}};
   if(q('next3'))q('next3').onclick=()=>{s.comment=q('comment').value;step=4;render();};
   if(q('yes'))q('yes').onclick=()=>{s.contact=true;render();};if(q('no'))q('no').onclick=()=>{s.contact=false;render();};if(q('morning'))q('morning').onclick=()=>{s.time='morning';render();};if(q('evening'))q('evening').onclick=()=>{s.time='evening';render();};
-  if(q('submit'))q('submit').onclick=async()=>{q('submit').disabled=true;try{s.phone=q('phone')?.value||'';s.time=q('time')?.value||'';const b=await branch();const r=await db.from('dv_customer_feedback').insert({branch_id:b.id,source:new URLSearchParams(location.search).get('source')||'table_qr',overall_score:s.overall,coffee_score:s.coffee,staff_score:s.staff,service_score:s.service,environment_score:s.environment,comment:s.comment,contact_requested:s.contact,phone:s.contact?s.phone:null,preferred_contact_time:s.contact?s.time:null,status:'new'});if(r.error)throw r.error;step=5;render();}catch(e){q('msg').innerHTML='<div class="error">'+esc(e.message)+'</div>';q('submit').disabled=false;}};
+  if(q('submit'))q('submit').onclick=async()=>{q('submit').disabled=true;try{s.phone=q('phone')?.value||'';s.time=q('time')?.value||'';const r=await db.from('dv_customer_feedback').insert({branch_id:BRANCH_ID,source:new URLSearchParams(location.search).get('source')||'table_qr',overall_score:s.overall,coffee_score:s.coffee,staff_score:s.staff,service_score:s.service,environment_score:s.environment,comment:s.comment,contact_requested:s.contact,phone:s.contact?s.phone:null,preferred_contact_time:s.contact?s.time:null,status:'new'});if(r.error)throw r.error;step=5;render();}catch(e){q('msg').innerHTML='<div class="error">'+esc(e.message)+'</div>';q('submit').disabled=false;}};
  }render();
 }
 function go(p){location.href=location.origin+'/darco-voice'+p;}
