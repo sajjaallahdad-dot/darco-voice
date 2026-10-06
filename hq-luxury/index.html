@@ -1,1 +1,126 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DARCO VOICE | Manager HQ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+:root{--bg:#f4f1eb;--card:#fffdf9;--ink:#181614;--muted:#817a72;--line:#e5dfd6;--red:#a72820;--green:#18754d;--yellow:#9b7416;--shadow:0 10px 30px #1b130b0a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Vazirmatn,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.side{width:245px;background:#181614;color:white;padding:22px 16px;position:fixed;right:0;top:0;bottom:0;z-index:5}.brand{font-size:22px;font-weight:800;padding:8px 10px 28px}.brand small{display:block;color:#9e9890;font-size:10px;margin-top:4px;letter-spacing:1px}
+.nav{display:flex;flex-direction:column;gap:5px}.nav button{border:0;background:transparent;color:#aaa49d;text-align:right;padding:12px 13px;border-radius:11px;font-weight:600}.nav button:hover,.nav button.active{background:#2a2724;color:#fff}.nav button.active{box-shadow:inset -3px 0 var(--red)}
+.side-bottom{position:absolute;bottom:20px;left:16px;right:16px;border-top:1px solid #302d29;padding-top:15px}.manager{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:12px;background:#eee9e0;color:#171513;display:grid;place-items:center;font-weight:800}
+.main{margin-right:245px;width:calc(100% - 245px);padding:26px 30px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}.top h1{margin:0;font-size:25px}.top p{margin:5px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px}.btn{border:1px solid var(--line);background:white;padding:10px 14px;border-radius:11px;font-weight:700}.btn.dark{background:var(--ink);color:white;border-color:var(--ink)}.btn.red{background:var(--red);color:white;border-color:var(--red)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.kpi label{font-size:11px;color:var(--muted)}.kpi strong{font-size:28px;display:block;margin-top:8px}.kpi span{font-size:10px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1.5fr .8fr;gap:14px;margin-top:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.card h3{margin:0;font-size:15px}.muted{color:var(--muted);font-size:11px}
+.chart{height:205px;display:flex;align-items:end;gap:9px;padding:10px 0 22px;border-bottom:1px solid var(--line)}.bar{flex:1;min-height:5px;border-radius:7px 7px 2px 2px;background:#292522;position:relative}.bar span{position:absolute;bottom:-23px;width:100%;text-align:center;color:#999;font-size:9px}
+.ranks{display:flex;flex-direction:column;gap:12px}.rank{display:grid;grid-template-columns:100px 1fr 35px;gap:8px;align-items:center;font-size:11px}.track{height:8px;background:#eee9e1;border-radius:20px;overflow:hidden}.fill{height:100%;background:#25211e;border-radius:20px}.fill.red{background:var(--red)}
+.alert{border:1px solid #eee2d5;background:#fbf7f1;border-radius:13px;padding:12px;margin-bottom:8px;font-size:11px}.alert b{display:block;margin-bottom:3px}.alert.red{border-color:#efd1cc;background:#fff4f2}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:12px 8px;border-bottom:1px solid #eee8df;text-align:right;font-size:11px;white-space:nowrap}.table th{color:#8b837b;font-size:10px}.table tr:hover td{background:#fcfaf6}
+.score{font-weight:800;padding:5px 8px;border-radius:8px}.good{background:#e9f6ee;color:var(--green)}.mid{background:#f4efe4;color:#776b5c}.bad{background:#fff0ee;color:var(--red)}
+.badge{font-size:9px;padding:5px 8px;border-radius:99px;background:#eeeae4}.new{background:#fff0ee;color:var(--red)}.progress{background:#fff6dd;color:#866614}.resolved{background:#e9f6ee;color:var(--green)}
+.filters{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:8px;margin-bottom:13px}.filters input,.filters select,.form input,.form select,.form textarea{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fffdf9;outline:0}
+.page{display:none}.page.show{display:block}.empty{text-align:center;padding:45px;color:var(--muted);font-size:12px}
+.modal-bg{position:fixed;inset:0;background:#0007;z-index:20;display:grid;place-items:center;padding:20px}.modal{background:#fffdf9;border-radius:23px;padding:22px;width:min(700px,100%);max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between}.close{border:0;background:#eee9e1;border-radius:9px;width:35px;height:35px}.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form .full{grid-column:1/-1}.mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mini{background:#f5f1ea;border-radius:12px;padding:12px;text-align:center;font-size:10px}.mini b{display:block;font-size:18px;margin-top:4px}
+.login{min-height:100vh;display:grid;place-items:center;background:#171513}.login-box{width:min(410px,90%);background:#fffdf9;border-radius:25px;padding:30px}.login-logo{font-size:25px;font-weight:800}.login-box h1{font-size:22px;margin:28px 0 4px}.login-box p{color:var(--muted);font-size:12px}.login-box input{width:100%;padding:13px;border:1px solid var(--line);border-radius:11px;margin:8px 0}.login-box button{width:100%;padding:13px;border:0;border-radius:11px;background:var(--ink);color:#fff;font-weight:800;margin-top:8px}
+@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}.side{width:210px}.main{margin-right:210px;width:calc(100% - 210px)}}
+@media(max-width:700px){.side{position:static;width:100%;height:auto}.app{display:block}.main{margin:0;width:100%;padding:18px}.side-bottom{display:none}.nav{flex-direction:row;overflow:auto}.nav button{white-space:nowrap}.kpis{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:1fr 1fr}.top{align-items:flex-start;flex-direction:column}.form{grid-template-columns:1fr}.form .full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const KEY='darco_voice_manager_demo';
+const defaultFeedback=[
+{id:1,date:'2026-09-26T09:20:00',overall:5,coffee:5,staff:5,service:4,environment:5,comment:'قهوه خیلی تازه بود، برخورد تیم هم عالی بود.',contact:false,source:'table_qr'},
+{id:2,date:'2026-09-26T08:45:00',overall:2,coffee:4,staff:2,service:2,environment:3,comment:'سفارش دیر رسید و کسی توضیح نداد.',contact:true,phone:'09120000000',source:'receipt_qr'},
+{id:3,date:'2026-09-25T18:30:00',overall:4,coffee:5,staff:4,service:4,environment:4,comment:'فضا خوب شده، فقط موسیقی کمی بلند بود.',contact:false,source:'instagram'},
+{id:4,date:'2026-09-25T16:10:00',overall:3,coffee:3,staff:4,service:3,environment:4,comment:'در کل خوب بود.',contact:false,source:'table_qr'},
+{id:5,date:'2026-09-24T20:15:00',overall:1,coffee:2,staff:2,service:1,environment:3,comment:'خیلی منتظر سفارش ماندم.',contact:true,phone:'09121111111',source:'package_qr'},
+{id:6,date:'2026-09-24T15:30:00',overall:5,coffee:5,staff:5,service:5,environment:5,comment:'تجربه خیلی خوبی بود.',contact:false,source:'instagram'},
+{id:7,date:'2026-09-23T12:20:00',overall:4,coffee:4,staff:5,service:4,environment:4,comment:'برخورد پرسنل عالی.',contact:false,source:'table_qr'}
+];
+const defaultCases=[
+{id:101,feedback_id:2,status:'IN_PROGRESS',priority:'high',owner:'مدیر شیفت',action:'بررسی علت تأخیر سفارش',note:'با تیم بار صحبت شود.'},
+{id:102,feedback_id:5,status:'NEW',priority:'critical',owner:'',action:'تماس با مشتری و بررسی سفارش',note:''}
+];
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||{feedback:defaultFeedback,cases:defaultCases};
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+function esc(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function score(n){return `<span class="score ${n>=4?'good':n===3?'mid':'bad'}">${n}/5</span>`}
+function status(s){return `<span class="badge ${s==='NEW'?'new':s==='IN_PROGRESS'?'progress':'resolved'}">${({NEW:'جدید',IN_PROGRESS:'در حال پیگیری',RESOLVED:'حل شده',CLOSED:'بسته شده'})[s]}</span>`}
+function page(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('show'));document.getElementById(id).classList.add('show');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));renderPage(id)}
+function render(){
+document.getElementById('root').innerHTML=`
+<div class="app">
+<aside class="side"><div class="brand">DARCO<small>VOICE / MANAGER HQ</small></div>
+<nav class="nav">
+<button data-page="overview" onclick="page('overview')">⌂ نمای کلی</button>
+<button data-page="customers" onclick="page('customers')">◉ صدای مشتری</button>
+<button data-page="cases" onclick="page('cases')">▣ پرونده‌ها</button>
+<button data-page="staff" onclick="page('staff')">♙ صدای پرسنل</button>
+<button data-page="analytics" onclick="page('analytics')">◒ تحلیل</button>
+<button data-page="settings" onclick="page('settings')">⚙ تنظیمات</button>
+</nav><div class="side-bottom"><div class="manager"><div class="avatar">M</div><div><b style="font-size:11px">Manager</b><div style="font-size:9px;color:#8f8982">Administrator</div></div></div></div></aside>
+<main class="main">
+<header class="top"><div><h1 id="title">نمای کلی</h1><p>مرکز فرمان تجربه مشتری دارکو</p></div><div class="actions"><button class="btn" onclick="exportData()">خروجی داده</button><button class="btn red" onclick="newFeedback()">+ بازخورد دستی</button></div></header>
+<section id="overview" class="page"></section><section id="customers" class="page"></section><section id="cases" class="page"></section><section id="staff" class="page"></section><section id="analytics" class="page"></section><section id="settings" class="page"></section>
+</main></div>`;
+page('overview')
+}
+function renderPage(id){
+const titles={overview:'نمای کلی',customers:'صدای مشتری',cases:'مدیریت پرونده‌ها',staff:'صدای پرسنل',analytics:'تحلیل و بینش',settings:'تنظیمات'};
+document.getElementById('title').textContent=titles[id];
+if(id==='overview')overview();if(id==='customers')customers();if(id==='cases')cases();if(id==='staff')staff();if(id==='analytics')analytics();if(id==='settings')settings();
+}
+function kpis(){
+let n=db.feedback.length,avg=n?(db.feedback.reduce((a,x)=>a+x.overall,0)/n).toFixed(1):0,sat=n?Math.round(db.feedback.filter(x=>x.overall>=4).length/n*100):0,bad=n?Math.round(db.feedback.filter(x=>x.overall<=2).length/n*100):0;
+return `<div class="kpis"><div class="kpi"><label>رضایت میانگین</label><strong>${avg}</strong><span>از ۵</span></div><div class="kpi"><label>نرخ رضایت</label><strong>${sat}%</strong><span>امتیاز ۴ و ۵</span></div><div class="kpi"><label>نرخ شکایت</label><strong>${bad}%</strong><span>امتیاز ۱ و ۲</span></div><div class="kpi"><label>بازخورد</label><strong>${n}</strong><span>کل ثبت شده</span></div><div class="kpi"><label>پرونده باز</label><strong>${db.cases.filter(x=>x.status==='NEW'||x.status==='IN_PROGRESS').length}</strong><span>نیازمند اقدام</span></div></div>`
+}
+function overview(){
+let dist=[1,2,3,4,5].map(n=>db.feedback.filter(x=>x.overall===n).length),mx=Math.max(1,...dist);
+document.getElementById('overview').innerHTML=kpis()+`<div class="grid">
+<div class="card"><div class="card-head"><div><h3>روند امتیاز تجربه</h3><span class="muted">۷ بازه اخیر ثبت‌شده</span></div><button class="btn" onclick="page('analytics')">تحلیل بیشتر</button></div><div class="chart">${db.feedback.slice(-7).map((x,i)=>`<div class="bar" style="height:${x.overall/5*90}%"><span>${i+1}</span></div>`).join('')}</div></div>
+<div class="card"><div class="card-head"><div><h3>هشدارهای مدیر</h3><span class="muted">اولویت‌های امروز</span></div></div>
+${db.feedback.filter(x=>x.overall<=2).slice(0,2).map(x=>`<div class="alert red"><b>⚠ تجربه ضعیف ${x.overall}/5</b>${esc(x.comment)}</div>`).join('')||'<div class="alert"><b>✓ بدون هشدار</b>مورد فوری ثبت نشده.</div>'}
+${db.feedback.filter(x=>x.contact).slice(0,2).map(x=>`<div class="alert"><b>☎ درخواست تماس</b>${esc(x.phone||'شماره ثبت نشده')}</div>`).join('')}</div></div>
+<div class="grid"><div class="card"><div class="card-head"><div><h3>صدای اخیر مشتری</h3><span class="muted">برای جزئیات روی ردیف بزن</span></div><button class="btn dark" onclick="page('customers')">همه بازخوردها</button></div>${feedbackTable(db.feedback.slice(0,7))}</div>
+<div class="card"><div class="card-head"><div><h3>امتیاز نقاط تماس</h3><span class="muted">میانگین دسته‌ها</span></div></div>${ranks()}</div></div>`
+}
+function ranks(){let keys=[['coffee','قهوه'],['staff','پرسنل'],['service','سرویس'],['environment','فضا']];return `<div class="ranks">${keys.map(([k,l])=>{let n=db.feedback.length?db.feedback.reduce((a,x)=>a+(x[k]||0),0)/db.feedback.length:0;return `<div class="rank"><span>${l}</span><div class="track"><div class="fill" style="width:${n/5*100}%"></div></div><b>${n.toFixed(1)}</b></div>`}).join('')}</div>`}
+function feedbackTable(list){
+if(!list.length)return '<div class="empty">هنوز بازخوردی ثبت نشده.</div>';
+return `<div class="table-wrap"><table class="table"><thead><tr><th>زمان</th><th>امتیاز</th><th>نظر</th><th>تماس</th><th>منبع</th><th>پرونده</th></tr></thead><tbody>${list.map(x=>{let c=db.cases.find(c=>c.feedback_id===x.id);return `<tr onclick="openFeedback(${x.id})" style="cursor:pointer"><td>${new Date(x.date).toLocaleDateString('fa-IR')}</td><td>${score(x.overall)}</td><td>${esc(x.comment||'بدون نظر')}</td><td>${x.contact?'☎':''}</td><td>${esc(x.source||'manual')}</td><td>${c?status(c.status):'<span class="badge">ندارد</span>'}</td></tr>`}).join('')}</tbody></table></div>`
+}
+function customers(){
+document.getElementById('customers').innerHTML=`<div class="card"><div class="card-head"><div><h3>تمام بازخوردهای مشتری</h3><span class="muted">فیلتر و بررسی عمیق</span></div><span class="badge">${db.feedback.length} رکورد</span></div>
+<div class="filters"><input id="q" placeholder="جستجوی نظر یا شماره..." oninput="filterCustomers()"><select id="fs" onchange="filterCustomers()"><option value="">همه امتیازها</option><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select><select id="fc" onchange="filterCustomers()"><option value="">همه تماس‌ها</option><option value="yes">درخواست تماس</option><option value="no">بدون تماس</option></select><select id="source" onchange="filterCustomers()"><option value="">همه منابع</option><option>table_qr</option><option>receipt_qr</option><option>package_qr</option><option>instagram</option></select><button class="btn" onclick="customers()">پاک کردن</button></div><div id="customerRows">${feedbackTable(db.feedback)}</div></div>`
+}
+function filterCustomers(){let q=(document.getElementById('q').value||'').toLowerCase(),s=document.getElementById('fs').value,c=document.getElementById('fc').value,src=document.getElementById('source').value;let list=db.feedback.filter(x=>(!q||`${x.comment} ${x.phone||''}`.toLowerCase().includes(q))&&(!s||x.overall==s)&&(!c||(c==='yes'&&x.contact)||(c==='no'&&!x.contact))&&(!src||x.source===src));document.getElementById('customerRows').innerHTML=feedbackTable(list)}
+function cases(){
+document.getElementById('cases').innerHTML=`<div class="grid"><div class="card"><div class="card-head"><div><h3>پرونده‌های فعال</h3><span class="muted">از شکایت تا حل مسئله</span></div><span class="badge">${db.cases.filter(x=>x.status!=='CLOSED').length} فعال</span></div>${caseTable(db.cases.filter(x=>x.status!=='CLOSED'))}</div><div class="card"><div class="card-head"><div><h3>چرخه رسیدگی</h3></div></div>${['NEW','IN_PROGRESS','RESOLVED','CLOSED'].map(s=>`<div class="rank"><span>${({NEW:'جدید',IN_PROGRESS:'پیگیری',RESOLVED:'حل شده',CLOSED:'بسته'})[s]}</span><div class="track"><div class="fill" style="width:${db.cases.length?db.cases.filter(x=>x.status===s).length/db.cases.length*100:0}%"></div></div><b>${db.cases.filter(x=>x.status===s).length}</b></div>`).join('')}</div></div><div class="card" style="margin-top:14px"><div class="card-head"><h3>همه پرونده‌ها</h3></div>${caseTable(db.cases)}</div>`
+}
+function caseTable(list){if(!list.length)return '<div class="empty">پرونده‌ای وجود ندارد.</div>';return `<div class="table-wrap"><table class="table"><thead><tr><th>شناسه</th><th>امتیاز</th><th>اولویت</th><th>وضعیت</th><th>مسئول</th><th>اقدام</th></tr></thead><tbody>${list.map(c=>{let f=db.feedback.find(x=>x.id===c.feedback_id);return `<tr onclick="openFeedback(${c.feedback_id})"><td>#${c.id}</td><td>${score(f?.overall||0)}</td><td>${c.priority}</td><td>${status(c.status)}</td><td>${esc(c.owner||'تعیین نشده')}</td><td>${esc(c.action||'ثبت نشده')}</td></tr>`}).join('')}</tbody></table></div>`}
+function staff(){
+let reports=JSON.parse(localStorage.getItem('darco_staff_reports')||'[]'),counts={};reports.forEach(r=>counts[r.issue]=(counts[r.issue]||0)+1);let arr=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+document.getElementById('staff').innerHTML=`<div class="kpis"><div class="kpi"><label>گزارش شیفت</label><strong>${reports.length}</strong><span>کل گزارش‌ها</span></div><div class="kpi"><label>شیفت بد</label><strong>${reports.filter(x=>x.shift==='بد').length}</strong><span>نیازمند بررسی</span></div><div class="kpi"><label>نوع مشکل</label><strong>${arr.length}</strong><span>دسته متفاوت</span></div><div class="kpi"><label>پیشنهاد</label><strong>${reports.filter(x=>x.suggestion).length}</strong><span>پیشنهاد ثبت شده</span></div><div class="kpi"><label>وضعیت</label><strong>${reports.length?'فعال':'۰'}</strong><span>داده عملیاتی</span></div></div><div class="grid"><div class="card"><div class="card-head"><h3>مشکلات پرتکرار</h3></div>${arr.map(([k,v])=>`<div class="rank"><span>${esc(k)}</span><div class="track"><div class="fill red" style="width:${v/Math.max(1,...arr.map(x=>x[1]))*100}%"></div></div><b>${v}</b></div>`).join('')||'<div class="empty">هنوز گزارشی نیست.</div>'}</div><div class="card"><div class="card-head"><h3>آخرین پیشنهادها</h3></div>${reports.slice(-5).reverse().map(r=>`<div class="alert"><b>${esc(r.issue)}</b>${esc(r.suggestion||'بدون پیشنهاد')}</div>`).join('')||'<div class="empty">بدون داده</div>'}</div></div>`
+}
+function analytics(){
+document.getElementById('analytics').innerHTML=`<div class="grid"><div class="card"><div class="card-head"><h3>تحلیل تجربه</h3><span class="muted">میانگین واقعی دسته‌ها</span></div>${ranks()}<hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><div class="mini-grid"><div class="mini">عالی<b>${db.feedback.filter(x=>x.overall===5).length}</b></div><div class="mini">خوب<b>${db.feedback.filter(x=>x.overall===4).length}</b></div><div class="mini">متوسط<b>${db.feedback.filter(x=>x.overall===3).length}</b></div><div class="mini">ضعیف<b>${db.feedback.filter(x=>x.overall<=2).length}</b></div></div></div><div class="card"><div class="card-head"><h3>منبع بازخورد</h3></div>${['table_qr','receipt_qr','package_qr','instagram','sms','manual'].map(s=>{let n=db.feedback.filter(x=>(x.source||'manual')===s).length;return `<div class="rank"><span>${s}</span><div class="track"><div class="fill" style="width:${db.feedback.length?n/db.feedback.length*100:0}%"></div></div><b>${n}</b></div>`}).join('')}</div></div>`
+}
+function settings(){
+document.getElementById('settings').innerHTML=`<div class="grid"><div class="card"><div class="card-head"><h3>ساختار سیستم</h3></div><div class="alert"><b>نقش مدیر</b>دسترسی به تمام بازخوردها، پرونده‌ها و گزارش‌های عملیاتی.</div><div class="alert"><b>منبع داده فعلی</b>LocalStorage / Prototype</div><div class="alert"><b>مرحله بعد</b>اتصال به Supabase، Login واقعی، RLS و دیتابیس مرکزی.</div></div><div class="card"><div class="card-head"><h3>داده آزمایشی</h3></div><button class="btn red" onclick="resetDemo()">بازنشانی داده‌های دمو</button></div></div>`
+}
+function openFeedback(id){
+let f=db.feedback.find(x=>x.id===id),c=db.cases.find(x=>x.feedback_id===id);
+let bg=document.createElement('div');bg.className='modal-bg';bg.id='modal';bg.innerHTML=`<div class="modal"><div class="modal-head"><div><span class="muted">FEEDBACK #${id}</span><h2 style="margin:4px 0">جزئیات مشتری</h2></div><button class="close" onclick="closeModal()">×</button></div><div style="font-size:43px;font-weight:800">${f.overall}<small style="font-size:14px;color:#777"> / 5</small></div><div class="mini-grid"><div class="mini">قهوه<b>${f.coffee}</b></div><div class="mini">پرسنل<b>${f.staff}</b></div><div class="mini">سرویس<b>${f.service}</b></div><div class="mini">فضا<b>${f.environment}</b></div></div><div class="alert" style="margin-top:14px"><b>نظر مشتری</b>${esc(f.comment||'بدون نظر')}<br><span class="muted">${new Date(f.date).toLocaleString('fa-IR')}</span></div><div class="alert"><b>تماس</b>${f.contact?'☎ '+esc(f.phone||'ثبت نشده'):'درخواستی ثبت نشده'}</div><h3>${c?'مدیریت پرونده':'ساخت پرونده'}</h3><div class="form"><select id="cs"><option value="NEW">جدید</option><option value="IN_PROGRESS">در حال پیگیری</option><option value="RESOLVED">حل شده</option><option value="CLOSED">بسته شده</option></select><select id="cp"><option value="low">کم</option><option value="medium">متوسط</option><option value="high">بالا</option><option value="critical">بحرانی</option></select><input id="co" placeholder="مسئول" value="${esc(c?.owner||'')}"><textarea id="ca" class="full" placeholder="اقدام">${esc(c?.action||'')}</textarea><textarea id="cn" class="full" placeholder="یادداشت داخلی">${esc(c?.note||'')}</textarea></div><div class="actions" style="margin-top:12px"><button class="btn red" onclick="saveCase(${id})">${c?'ذخیره پرونده':'ساخت پرونده'}</button><button class="btn" onclick="closeModal()">بستن</button></div></div>`;document.body.appendChild(bg);if(c){cs.value=c.status;cp.value=c.priority}}
+function saveCase(fid){let c=db.cases.find(x=>x.feedback_id===fid);if(!c){c={id:Date.now(),feedback_id:fid};db.cases.unshift(c)}c.status=cs.value;c.priority=cp.value;c.owner=co.value;c.action=ca.value;c.note=cn.value;save();closeModal();page('cases')}
+function closeModal(){document.getElementById('modal')?.remove()}
+function newFeedback(){let c=prompt('نظر مشتری را وارد کنید:');if(!c)return;db.feedback.unshift({id:Date.now(),date:new Date().toISOString(),overall:5,coffee:5,staff:5,service:5,environment:5,comment:c,contact:false,source:'manual'});save();overview()}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='darco-voice-data.json';a.click()}
+function resetDemo(){localStorage.removeItem(KEY);location.reload()}
+render();
+</script>
+</body>
+</html>
