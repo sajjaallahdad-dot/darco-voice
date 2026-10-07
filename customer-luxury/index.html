@@ -19,8 +19,8 @@
 const BRANCH_ID='a0e47b77-05fd-41a8-a8a8-527bc866eabf';
 const app=document.getElementById('app');
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const miniRemi=()=>'<img src="remi.svg" alt="Remi" style="width:118px;height:118px;object-fit:contain;filter:drop-shadow(0 12px 18px #0004)">';
-const remi=()=>'<div class="remi"><img src="remi.svg" alt="Remi mascot"></div>';
+const miniRemi=()=>'<img src="remi-direct.jpg" alt="Remi" style="width:118px;height:118px;object-fit:contain;filter:drop-shadow(0 12px 18px #0004)">';
+const remi=()=>'<div class="remi"><img src="remi-direct.jpg" alt="Remi mascot"></div>';
 function form(){
  const s={overall:0,coffee:0,staff:0,service:0,environment:0,comment:'',contact:false,phone:'',time:''};let step=0;
  const render=()=>{let h='<div class="form-top"><div class="form-brand">DARCO <span>VOICE</span></div><div class="step">GILAVAND · '+(step<5?step+1:5)+'/5</div></div>';
