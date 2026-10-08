@@ -19,8 +19,9 @@
 const BRANCH_ID='a0e47b77-05fd-41a8-a8a8-527bc866eabf';
 const app=document.getElementById('app');
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const miniRemi=()=>'<img src="remi-direct.jpg" alt="Remi" style="width:118px;height:118px;object-fit:contain;filter:drop-shadow(0 12px 18px #0004)">';
-const remi=()=>'<div class="remi"><img src="remi-direct.jpg" alt="Remi mascot"></div>';
+let REMI_DATA='';
+const miniRemi=()=>'<img src="'+REMI_DATA+'" alt="Remi" style="width:118px;height:118px;object-fit:contain;filter:drop-shadow(0 12px 18px #0004)">';
+const remi=()=>'<div class="remi"><img src="'+REMI_DATA+'" alt="Remi mascot"></div>';
 function form(){
  const s={overall:0,coffee:0,staff:0,service:0,environment:0,comment:'',contact:false,phone:'',time:''};let step=0;
  const render=()=>{let h='<div class="form-top"><div class="form-brand">DARCO <span>VOICE</span></div><div class="step">GILAVAND · '+(step<5?step+1:5)+'/5</div></div>';
@@ -49,5 +50,6 @@ async function submitFeedback(s){
  return await client.from('dv_customer_feedback').insert({branch_id:BRANCH_ID,source,overall_score:s.overall,coffee_score:s.coffee,staff_score:s.staff,service_score:s.service,environment_score:s.environment,comment:s.comment,contact_requested:s.contact,phone:s.contact?s.phone:null,preferred_contact_time:s.contact?s.time:null,status:'new'});
 }
 function landing(){app.innerHTML='<div class="page"><div class="glow"></div><div class="shell"><div class="topbar"><div class="logo"><div class="logo-mark">D</div><div class="logo-word">DARCO<small>ROASTERY</small></div></div><div class="pill">DARCO VOICE · GILAVAND</div></div><div class="hero"><section class="copy"><div class="eyebrow">YOUR EXPERIENCE MATTERS</div><h1 class="headline">دارکو را<br><em>با صدای تو</em><br>بهتر می‌کنیم.</h1><p class="lead">این صفحه برای یک نظر معمولی ساخته نشده. می‌خواهیم دقیق بدانیم کجای تجربه‌ات خوب بود، کجا باید بهتر شویم و چه چیزی ارزش برگشتن دوباره را دارد.</p><div class="cta"><button class="primary" id="begin">ثبت نظر من</button><button class="secondary" id="skip">۳۰ ثانیه تا پایان</button></div></section><section class="remi-stage"><div class="remi-card"><span class="remi-label">REMI · DARCO MASCOT</span>'+remi()+'<span class="spark">✦</span></div></section></div></div></div>';document.getElementById('begin').onclick=form;document.getElementById('skip').onclick=form}
-landing();
+async function boot(){const b64=(await fetch('remi-exact.b64').then(r=>r.text())).trim();const raw=atob(b64);const bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);REMI_DATA=URL.createObjectURL(new Blob([bytes],{type:'image/jpeg'}));landing()}
+boot();
 </script></body></html>
